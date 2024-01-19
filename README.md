@@ -45,6 +45,43 @@ $ yarn run start:dev
 $ yarn run start:prod
 ```
 
+## API Routes
+
+```
+get books
+# GET ==> localhost:3333/books
+
+get books by id
+# GET ==> localhost:3333/books/:id
+
+create a book
+# POST ==> localhost:3333/books/create
+  --> book model to pass to the create route:
+  {
+    "title": "title one",
+    "description": "description one",
+    "author": "author one",
+    "price": 120,
+    "category": "Adventure"
+  }
+
+update a book
+# PUT ==> localhost:3333/books/:id
+  --> the data to be passed for updating a book
+  {
+    "title": "new title one",
+    "description": "new description one",
+    "author": "new author one",
+    "price": 240,
+    "category": "Adventure"
+  }
+
+delete a book
+# DELETE ==> localhost:3333/books/:id
+
+```
+
+
 ## Test
 
 ```bash
