@@ -79,6 +79,13 @@ update a book
 delete a book
 # DELETE ==> localhost:3333/books/:id
 
+server side pagination
+# GET ==> localhost:3333/books/
+  --> query params:
+        keyword: book one
+        or
+        page: 1, 2, 3, etc.
+
 ```
 
 

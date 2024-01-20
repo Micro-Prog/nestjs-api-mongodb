@@ -1,8 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Book } from './db_schemas/book.schema';
 import { ObjectId } from 'mongoose';
+import { Query } from 'express-serve-static-core';
 
 
 @Injectable()
@@ -12,13 +13,42 @@ export class BookService {
         private bookModel: mongoose.Model<Book>
     ) {}
 
-    async findAll(): Promise<Book[]> {
-        const books = await this.bookModel.find();
+    async findAll(query: Query): Promise<Book[]> {
+        
+        // the number of results for each page
+        const resultsPerPage = 2;
+
+        // the current page number
+        const currentPage = Number(query.page) || 1;
+
+        // the number of results to skip
+        const skip = resultsPerPage * (currentPage - 1);
+
+        // extract the keyword from the query
+        const keyword = query.keyword ? {
+            title: {
+                $regex: query.keyword,
+                $options: 'i',
+            }
+        } : {}
+
+        const books = await this.bookModel
+            .find({ ...keyword })
+            .limit(resultsPerPage)
+            .skip(skip);
         return books;
     }
 
     async findBookById(id: string): Promise<Book> {
         
+        // chech if the passed id is a correct mongodb objectid
+        const isValidID = mongoose.isValidObjectId(id);
+
+        // throw an exception if the id is not correct
+        if(!isValidID) {
+            throw new BadRequestException("Please enter a correct id.")
+        }
+
         // convert the string id to objectid
         const newID = new mongoose.Types.ObjectId(id);
 
