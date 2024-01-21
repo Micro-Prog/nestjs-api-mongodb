@@ -48,6 +48,8 @@ $ yarn run start:prod
 ## API Routes
 
 ```
+BOOKS:
+
 get books
 # GET ==> localhost:3333/books
 
@@ -86,6 +88,24 @@ server side pagination
         or
         page: 1, 2, 3, etc.
 
+USERS:
+
+signup user
+#POST ==> localhost:3333/auth/signup
+  --> user model to be passed:
+      {
+        "email": "titleone@gmail.com",
+        "password": "123456",
+        "name": "author one"
+      }
+
+signin user
+#GET ==> localhost:3333/auth/signin
+  --> user model to be passed:
+          {
+            "email": "titleone@gmail.com",
+            "password": "123456"
+          }
 ```
 
 
