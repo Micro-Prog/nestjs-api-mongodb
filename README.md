@@ -50,14 +50,16 @@ $ yarn run start:prod
 ```
 BOOKS:
 
-get books
+get books 2 books per request
 # GET ==> localhost:3333/books
+  --> params --> page: 1, 2, 3, 4, ...
 
 get books by id
 # GET ==> localhost:3333/books/:id
 
 create a book
 # POST ==> localhost:3333/books/create
+  --> Header --> Authorization: Bearer [signin_token]
   --> book model to pass to the create route:
   {
     "title": "title one",
