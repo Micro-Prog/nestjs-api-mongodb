@@ -5,6 +5,7 @@ import { Book } from './db_schemas/book.schema';
 import { ObjectId } from 'mongoose';
 import { Query } from 'express-serve-static-core';
 import { User } from '../auth/schema/user.schema';
+import { ConfigService } from '@nestjs/config';
 
 
 @Injectable()
@@ -40,8 +41,7 @@ export class BookService {
         return books;
     }
 
-    async findBookById(id: string): Promise<Book> {
-        
+    async findById(id: string): Promise<Book> {
         // chech if the passed id is a correct mongodb objectid
         const isValidID = mongoose.isValidObjectId(id);
 
@@ -51,9 +51,9 @@ export class BookService {
         }
 
         // convert the string id to objectid
-        const newID = new mongoose.Types.ObjectId(id);
+        // const newID = new mongoose.Types.ObjectId(id);
 
-        const book = await this.bookModel.findById(newID);
+        const book = await this.bookModel.findById(id);
 
         // if not found
         if(!book) {
@@ -72,12 +72,9 @@ export class BookService {
         return res;
     }
 
-    async updateBookById(id: string, book: Book): Promise<Book> {
+    async updateById(id: string, book: Book): Promise<Book> {
 
-        // convert the id to objectid
-        const newID = new mongoose.Types.ObjectId(id);
-
-        return await this.bookModel.findByIdAndUpdate(newID, book, {
+        return await this.bookModel.findByIdAndUpdate(id, book, {
             new: true,
             runValidators: true,
         })

@@ -5,7 +5,7 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { ObjectId } from 'mongoose';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Query as ExpressQuery } from 'express-serve-static-core';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard, PassportModule } from '@nestjs/passport';
 
 
 @Controller('books')
@@ -24,7 +24,7 @@ export class BookController {
     async getBookById(
         @Param('id') id: string,
     ): Promise<Book> {
-        return this.bookService.findBookById(id);
+        return this.bookService.findById(id);
     }
 
     @Post('create')
@@ -41,7 +41,7 @@ export class BookController {
         @Param('id') id: string,
         @Body() book: UpdateBookDto,
     ): Promise<Book> {
-        return this.bookService.updateBookById(id, book);
+        return this.bookService.updateById(id, book);
     }
 
     @Delete(':id')
